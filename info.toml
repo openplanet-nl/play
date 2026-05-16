@@ -1,0 +1,8 @@
+[meta]
+name = "Play"
+author = "Openplanet"
+category = "Utilities"
+essential = true
+
+[script]
+dependencies = [ "NadeoServices" ]
