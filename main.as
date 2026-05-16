@@ -160,6 +160,7 @@ void Play(const string &in url, const string &in mapType)
 // type is expected to be in a format like "TrackMania\TM_Race".
 string GetModePathForMapType(const string &in mapType)
 {
+#if TMNEXT
 	if (mapType == "TrackMania\\TM_Race") { return "TrackMania/TM_PlayMap_Local"; }
 	if (mapType == "TrackMania\\TM_Royal") { return "TrackMania/TM_RoyalTimeAttack_Local"; }
 	if (mapType == "TrackMania\\TM_Stunt") { return "TrackMania/TM_StuntSolo_Local"; }
@@ -167,4 +168,10 @@ string GetModePathForMapType(const string &in mapType)
 
 	error("Unknown mode path for map type \"" + mapType + "\"");
 	return "";
+
+#elif MP4
+	// We're pretty much only ever going to need CampaignSolo, unless we're in
+	// ShootMania. We should improve this when adding ShootMania support.
+	return "Modes/TrackMania/CampaignSolo";
+#endif
 }
