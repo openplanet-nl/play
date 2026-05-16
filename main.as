@@ -16,7 +16,7 @@ void Main()
 // Returns true if the given string looks like a valid UUID.
 bool IsUUID(const string &in str)
 {
-	return Regex::IsMatch(str, "^[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$");
+	return Regex::IsMatch(str, "^[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}$");
 }
 
 // Returns true if the given string looks like a valid map UID.
