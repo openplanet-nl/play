@@ -4,5 +4,8 @@ author = "Openplanet"
 category = "Utilities"
 essential = true
 
+[game]
+supported_games = [ "next", "v4", "forever", "dev" ]
+
 [script]
 optional_dependencies = [ "NadeoServices" ]
