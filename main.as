@@ -8,7 +8,9 @@ class PlayParams
 
 void Main()
 {
+#if DEPENDENCY_NADEOSERVICES
 	NadeoServices::AddAudience("NadeoServices");
+#endif
 }
 
 // Returns true if the given string looks like a valid UUID.
@@ -49,10 +51,12 @@ void ShowError(const string &in message)
 
 void OnProtocolUrl(const string &in path)
 {
+#if TMNEXT
 	if (!Permissions::PlayLocalMap()) {
 		ShowError("You need a Club subscription to play arbitrary maps.");
 		return;
 	}
+#endif
 
 	PlayParams params;
 	array<string> parts;
@@ -80,12 +84,14 @@ void OnProtocolUrl(const string &in path)
 // source of the map.
 void PlayImplicit(const PlayParams &in params)
 {
+#if DEPENDENCY_NADEOSERVICES
 	// If this is a UUID or regular ID, we can assume it can be sourced from the
 	// Nadeo API
 	if (Setting_MapSource_Nadeo && (IsUID(params.m_id) || IsUUID(params.m_id))) {
 		PlayExplicit("nadeo", params);
 		return;
 	}
+#endif
 
 	// If this is a number, we can assume it's probably a ManiaExchange ID
 	if (Setting_MapSource_Mx && IsNumber(params.m_id)) {
@@ -100,13 +106,19 @@ void PlayImplicit(const PlayParams &in params)
 // Play the given map from an explicit source and parameters.
 void PlayExplicit(const string &in source, const PlayParams &in params)
 {
+#if DEPENDENCY_NADEOSERVICES
 	if (Setting_MapSource_Nadeo && source == "nadeo") {
 		startnew(PlayNadeoAsync, params);
-	} else if (Setting_MapSource_Mx && source == "mx") {
-		startnew(PlayMxAsync, params);
-	} else {
-		ShowError("Unknown explicit map source \"" + source + "\"");
+		return;
 	}
+#endif
+
+	if (Setting_MapSource_Mx && source == "mx") {
+		startnew(PlayMxAsync, params);
+		return;
+	}
+
+	ShowError("Unknown explicit map source \"" + source + "\"");
 }
 
 // Play a map directly from the given URL and map type.

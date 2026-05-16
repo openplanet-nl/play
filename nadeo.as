@@ -1,3 +1,4 @@
+#if DEPENDENCY_NADEOSERVICES
 void PlayNadeoAsync(ref@ r)
 {
 	auto params = cast<PlayParams>(r);
@@ -64,3 +65,4 @@ namespace NadeoServices
 		return NadeoServices::Get("NadeoServices", url);
 	}
 }
+#endif

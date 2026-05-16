@@ -5,4 +5,4 @@ category = "Utilities"
 essential = true
 
 [script]
-dependencies = [ "NadeoServices" ]
+optional_dependencies = [ "NadeoServices" ]
