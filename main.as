@@ -51,13 +51,6 @@ void ShowError(const string &in message)
 
 void OnProtocolUrl(const string &in path)
 {
-#if TMNEXT
-	if (!Permissions::PlayLocalMap()) {
-		ShowError("You need a Club subscription to play arbitrary maps.");
-		return;
-	}
-#endif
-
 	PlayParams params;
 	array<string> parts;
 
@@ -124,14 +117,13 @@ void PlayExplicit(const string &in source, const PlayParams &in params)
 // Play a map directly from the given URL and map type.
 void Play(const string &in url, const string &in mapType)
 {
-	// NOTE: If you would like to copy this function to your plugin, please add a
-	//       permissions check using Permissions::PlayLocalMap. This is already
-	//       done in this plugin before this function is called, so it's commented
-	//       out here.
-	// if (!Permissions::PlayLocalMap()) {
-	// 	error("No permissions");
-	// 	return;
-	// }
+#if TMNEXT
+	if (!Permissions::PlayLocalMap()) {
+		ShowError("You need a Club subscription to play arbitrary maps.");
+		return;
+	}
+#endif
+
 
 	auto app = cast<CGameManiaPlanet>(GetApp());
 
