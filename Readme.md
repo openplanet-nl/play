@@ -22,6 +22,8 @@ The following map sources are supported:
 
 - **Nadeo** (`nadeo`): map UIDs (as well as map IDs) that are uploaded to the
   Nadeo API (such as a campaign, room, or map review) can be played with this.
+- **Nadeo rooms** (`room`): combination of numeric club & room IDs. This must be
+  provided through an explicit URL.
 - **ManiaExchange** (`mx`): numeric IDs that are uploaded on Mania Exchange can
   be played with this.
 
@@ -41,4 +43,6 @@ trackmania://openplanet/play/nadeo/PRXOh_5msNrp2Kxz1lv7DPsLL4k
 trackmania://openplanet/play/nadeo/56e30750-83af-449f-922e-7b1db9ffe728
 trackmania://openplanet/play/mx/316306
 trackmania://openplanet/play/mx/316536?secret=Jf2G0D2pjk2WwnypZCIySg
+
+trackmania://openplanet/play/room/9/345809
 ```
