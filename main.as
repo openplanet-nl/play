@@ -66,9 +66,13 @@ void OnProtocolUrl(const string &in path)
 		parts = path.Split("/");
 	}
 
-	if (parts.Length == 1) {
+	if (parts[0] == "") {
+		ShowError("Improperly formatted URL");
+
+	} else if (parts.Length == 1) {
 		params.m_id = parts[0];
 		PlayImplicit(params);
+
 	} else if (parts.Length >= 2) {
 		params.m_id = parts[1];
 		for (uint i = 2; i < parts.Length; i++) {
