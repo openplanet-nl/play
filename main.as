@@ -3,6 +3,7 @@
 class PlayParams
 {
 	string m_id;
+	array<string> m_parts;
 	QueryMap m_query;
 }
 
@@ -10,6 +11,7 @@ void Main()
 {
 #if DEPENDENCY_NADEOSERVICES
 	NadeoServices::AddAudience("NadeoServices");
+	NadeoServices::AddAudience("NadeoLiveServices");
 #endif
 }
 
@@ -51,6 +53,8 @@ void ShowError(const string &in message)
 
 void OnProtocolUrl(const string &in path)
 {
+	//TODO: Don't allow a new task to start while another task is still ongoing
+
 	PlayParams params;
 	array<string> parts;
 
@@ -65,11 +69,12 @@ void OnProtocolUrl(const string &in path)
 	if (parts.Length == 1) {
 		params.m_id = parts[0];
 		PlayImplicit(params);
-	} else if (parts.Length == 2) {
+	} else if (parts.Length >= 2) {
 		params.m_id = parts[1];
+		for (uint i = 2; i < parts.Length; i++) {
+			params.m_parts.InsertLast(parts[i]);
+		}
 		PlayExplicit(parts[0], params);
-	} else {
-		error("Unexpected number of URL parts (" + parts.Length + ")");
 	}
 }
 
@@ -100,9 +105,14 @@ void PlayImplicit(const PlayParams &in params)
 void PlayExplicit(const string &in source, const PlayParams &in params)
 {
 #if DEPENDENCY_NADEOSERVICES
-	if (Setting_MapSource_Nadeo && source == "nadeo") {
-		startnew(PlayNadeoAsync, params);
-		return;
+	if (Setting_MapSource_Nadeo) {
+		if (source == "nadeo") {
+			startnew(PlayNadeoAsync, params);
+			return;
+		} else if (source == "room") {
+			startnew(PlayNadeoRoomAsync, params);
+			return;
+		}
 	}
 #endif
 
