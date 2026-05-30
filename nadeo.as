@@ -147,12 +147,12 @@ void PlayNadeoRoomAsync(ref@ r)
 			return;
 		}
 
-		trace("Server is still starting; switching to server querying of \"" + joinLink.ServerLoginOrIp + "\"");
+		trace("Server is still starting; switching to server querying of \"" + joinLink.LoginOrIp + "\"");
 		Loading::Status = "Server is still starting. Querying server, please be patient..";
 
 		while (!Loading::CancelRequested) {
 			// Get server info and wait for a result
-			app.ManiaTitleControlScriptAPI.GetServerInfo(joinLink.ServerLoginOrIp);
+			app.ManiaTitleControlScriptAPI.GetServerInfo(joinLink.LoginOrIp);
 			while (!app.ManiaTitleControlScriptAPI.IsReady && !Loading::CancelRequested) {
 				yield();
 			}
@@ -182,8 +182,12 @@ void PlayNadeoRoomAsync(ref@ r)
 		return;
 	}
 
+	// Make sure the join link is "qjoin": dedicated servers are "join" links for
+	// whatever reason
+	joinLink.Type = "qjoin";
+
 	// Finally, we can join the server!
-	app.ManiaPlanetScriptAPI.OpenLink(joinLink.Full, CGameManiaPlanetScriptAPI::ELinkType::ManialinkBrowser);
+	app.ManiaPlanetScriptAPI.OpenLink(joinLink.ToString(), CGameManiaPlanetScriptAPI::ELinkType::ManialinkBrowser);
 }
 
 // Helper functions to create requests on the core API with the necessary
