@@ -170,8 +170,9 @@ string GetModePathForMapType(const string &in mapType)
 	return "";
 
 #elif MP4
-	// We're pretty much only ever going to need CampaignSolo, unless we're in
-	// ShootMania. We should improve this when adding ShootMania support.
-	return "Modes/TrackMania/CampaignSolo";
+	// TODO: We're pretty much only ever going to need SingleMap. Some other
+	//       titlepacks (like Platform or TMOne) and other games (like ShootMania)
+	//       will need other modes.
+	return "SingleMap";
 #endif
 }
