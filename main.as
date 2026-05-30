@@ -32,7 +32,7 @@ bool IsUID(const string &in str)
 // Returns true if the given string looks like a number.
 bool IsNumber(const string &in str)
 {
-	return Regex::IsMatch(str, "^[0-9]+$");
+	return Regex::IsMatch(str, "^\\d+$");
 }
 
 // Helper function to print an error to log and show a UI notification with an
