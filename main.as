@@ -55,6 +55,20 @@ void OnProtocolUrl(const string &in path)
 {
 	//TODO: Don't allow a new task to start while another task is still ongoing
 
+	// Don't do anything when the user is in an editor so they don't lose their
+	// work
+	//
+	// NOTE: We could easily call CGameCtnEditorCommon::QuitFromScript_OnOk here
+	//       to exit out of the editor, but we would probably want to have a way
+	//       for the user to confirm that's actually what they wanted to do, which
+	//       means a whole asynchronous dialog confirmation flow. Might be a bit
+	//       complex right now, so just show a message instead. At some point we
+	//       could implement it nicely in the Controls plugin.
+	if (GetApp().Editor !is null) {
+		ShowError("Not handling Play URL because you are currently in the editor. Please make sure you save your work first!");
+		return;
+	}
+
 	PlayParams params;
 	array<string> parts;
 
