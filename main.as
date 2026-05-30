@@ -124,7 +124,20 @@ void Play(const string &in url, const string &in mapType)
 	}
 #endif
 
+	// We have to exit the playground first before we can do anything else
+	ExitPlaygroundAsync();
 
+	// Get the gamemode path for the map type
+	auto modePath = GetModePathForMapType(mapType);
+
+	// Play the map with the mode
+	auto app = cast<CGameManiaPlanet>(GetApp());
+	app.ManiaTitleControlScriptAPI.PlayMap(url, modePath, "");
+}
+
+// Exits the current playground asynchronously.
+void ExitPlaygroundAsync()
+{
 	auto app = cast<CGameManiaPlanet>(GetApp());
 
 	// If an in-game menu is displayed, we'll need to close it to avoid locking up
@@ -140,12 +153,6 @@ void Play(const string &in url, const string &in mapType)
 	while (app.CurrentPlayground !is null) {
 		yield();
 	}
-
-	// Get the gamemode path for the map type
-	auto modePath = GetModePathForMapType(mapType);
-
-	// Play the map with the mode
-	app.ManiaTitleControlScriptAPI.PlayMap(url, modePath, "");
 }
 
 // Returns the gamemode to pass to PlayMap() for the given map type. The map
